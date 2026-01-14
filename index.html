@@ -2,46 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-<script>
-function getMobileOperatingSystem() {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Перенаправление в магазин</title>
+    <script>
+        function getMobileOperatingSystem() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-    // Huawei / Honor / HarmonyOS detection
-       if (/huawei|harmonyos|emui|hmscore/huaweibrowser/i.test(userAgent)) {
-        return "Huawei";
-    } 
-    // iOS detection from: http://stackoverflow.com/a/9039885/1777107
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "iOS";
-    }
+            // 🔍 Проверяем Huawei ПЕРВЫМ — по всем возможным признакам
+            if (
+                /huawei/i.test(userAgent) ||
+                /HUAWEI/i.test(userAgent) ||
+                /harmonyos/i.test(userAgent) ||
+                /emui/i.test(userAgent) ||
+                /hmscore/i.test(userAgent) ||
+                /huaweibrowser/i.test(userAgent) ||
+                /BLK-LX9|ELE-L29|POT-LX1|NOH-NX9|ANA-LX9|VTR-L29|LYA-L29/i.test(userAgent) // популярные модели Huawei
+            ) {
+                return "Huawei";
+            }
 
-   // Android
-    if (/android/i.test(userAgent)) {
-   	return "Android";
-    }
+            // 🍏 iOS
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
 
-    return "unknown";
-}</script>
+            // 🤖 Android (остальные)
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
 
-<script>
-function DetectAndServe(){
-var os = getMobileOperatingSystem();  
+            return "unknown";
+        }
 
-if (os === "Android") {
-    window.location.href = "https://play.google.com/store/apps/details?id=com.alseda.bapb"; 
-    }
-else if (os === "iOS") {
-    window.location.href = "https://itunes.apple.com/by/app/belagraprombank/id831489120?mt=8";
-    }
-else if (os === "Huawei") {
-    window.location.href = "https://appgallery.huawei.com/app/C101950215";
-    }
-else {
-    window.location.href = "https://www.ibank.belapb.by/";
-    }
-};
-</script>
+        function DetectAndServe() {
+            var os = getMobileOperatingSystem();
+
+            // 💡 Для отладки (можно удалить в продакшене):
+            console.log("User-Agent:", navigator.userAgent);
+            console.log("Определённая ОС:", os);
+
+            if (os === "Huawei") {
+                window.location.href = "https://appgallery.huawei.com/app/C101950215";
+            } else if (os === "Android") {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.alseda.bapb";
+            } else if (os === "iOS") {
+                window.location.href = "https://apps.apple.com/by/app/belagroprombank/id831489120";
+            } else {
+                window.location.href = "https://www.ibank.belapb.by/";
+            }
+        }
+    </script>
 </head>
 <body onload="DetectAndServe()">
+    <p>Перенаправление...</p>
 </body>
 </html>
