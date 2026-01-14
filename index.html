@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+<script>
+function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Huawei / Honor / HarmonyOS detection
+       if (/huawei|harmonyos|emui|hmscore/huaweibrowser/i.test(userAgent)) {
+        return "Huawei";
+    } 
+    // iOS detection from: http://stackoverflow.com/a/9039885/1777107
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    }
+
+   // Android
+    if (/android/i.test(userAgent)) {
+   	return "Android";
+    }
+
+    return "unknown";
+}</script>
+
+<script>
+function DetectAndServe(){
+var os = getMobileOperatingSystem();  
+
+if (os === "Android") {
+    window.location.href = "https://play.google.com/store/apps/details?id=com.alseda.bapb"; 
+    }
+else if (os === "iOS") {
+    window.location.href = "https://itunes.apple.com/by/app/belagraprombank/id831489120?mt=8";
+    }
+else if (os === "Huawei") {
+    window.location.href = "https://appgallery.huawei.com/app/C101950215";
+    }
+else {
+    window.location.href = "https://www.ibank.belapb.by/";
+    }
+};
+</script>
+</head>
+<body onload="DetectAndServe()">
+</body>
+</html>
